@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class HemingCode:public Heming
+class HemingCode :public Heming
 {
 public:
 	HemingCode(const char* filename, const char* filename2) :Heming(filename, filename2) {}
@@ -19,10 +19,10 @@ private:
 void HemingCode::file_encoding() {
 	blocks("temp.txt");
 	in.close();
-	in.open("temp.txt");
+	in.open("temp.txt", ios_base::binary);
 	N = get_amount_simbols("temp.txt");
 	for (int l = 0; l < N; l++) {
-		in >> a;
+		in.get(a);
 		for (int i = 0; i < 8; i++) {
 			splitmas[i] = 0;
 			int viv = a & (1 << i);
