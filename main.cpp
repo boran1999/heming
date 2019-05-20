@@ -12,12 +12,12 @@ int main(void) {
 	cout << "Вы хотите закодировать или декодировать файл? (e/d)" << endl;
 	cin >> vib;
 	if (vib == 'e') {
-		HemingCode code("in.txt", "out.txt");
+		HemingCode code("in.txt", "encoding_result.txt");
 		code.file_encoding();
 		cout << "Файл закодирован" << endl;
 	}
 	else if (vib == 'd') {
-		HemingDecode dec("out.txt", "outnew.txt");
+		HemingDecode dec("encoding_result.txt", "tempout.txt");
 		dec.file_decoding();
 		cout << "Файл декодирован" << endl;
 	}
