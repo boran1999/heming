@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class HemingDecode:public Heming {
+class HemingDecode :public Heming {
 public:
 	HemingDecode(const char* filename, const char* filename2) :Heming(filename, filename2) {}
 	void file_decoding();
@@ -19,7 +19,7 @@ void HemingDecode::file_decoding() {
 	char res[8] = { 0 };
 	int i = 0;
 	for (int l = 0; l < N; l++) {
-		in >> a;
+		in.get(a);
 		if (i == 1) {
 			decode(a, splitmas);
 			for (int j = 0; j < 8; j++) {
@@ -39,11 +39,9 @@ void HemingDecode::file_decoding() {
 		decode(a, mas);
 		i++;
 	}
+	out.close();
 	in.close();
-	in.open("outnew.txt");
-	N = get_amount_simbols("outnew.txt");
-	unblocks("outer.txt");
-	in.close();
+	unblocks("tempout.txt","decoding_result.txt");
 }
 
 int* HemingDecode::decode(char a, int* &res) {
