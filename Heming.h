@@ -10,7 +10,7 @@ class Heming
 public:
 	Heming(const char* filename, const char* filename2);
 	void blocks(const char* filename);
-	void unblocks(const char* filename);
+	void unblocks(const char* filename, const char* filename1);
 protected:
 	ifstream in;
 	ofstream out;
@@ -23,7 +23,7 @@ protected:
 Heming::Heming(const char* filename, const char* filename2)
 {
 	N = get_amount_simbols(filename);
-	in.open(filename);
+	in.open(filename, ios_base::binary);
 	out.open(filename2);
 
 }
@@ -42,7 +42,7 @@ void Heming::blocks(const char* filename) {
 		block[1] = '&'; outn << block[1];
 		outn << kol << i + 1;
 		for (int j = 0; j < 4; j++) {
-			in >> a;
+			in.get(a);
 			block[j + 2] = a;
 		}
 		block[6] = '$';
@@ -56,7 +56,7 @@ void Heming::blocks(const char* filename) {
 	outn << kol << kol;
 	int index = 4 * (kol - 1);
 	for (int j = 0; j < N - index; j++) {
-		in >> a;
+		in.get(a);
 		block[j + 2] = a;
 	}
 	index = N - index;
@@ -68,24 +68,29 @@ void Heming::blocks(const char* filename) {
 	outn.close();
 }
 
-void Heming::unblocks(const char* filename) {
-	ofstream outm(filename);
-	char *unbl=new char[N];
-	while(N / 10 > 0){
-		for (int i = 0; i < N; i++) {
-			in >> unbl[i];
+void Heming::unblocks(const char* filename, const char* filename1) {
+	ifstream inn(filename, ios_base::binary);
+	ofstream outm(filename1);
+	N = get_amount_simbols(filename);
+	char *unbl = new char[N];
+	while (N / 10 > 0) {
+		for (int i = 0; i < 10; i++) {
+			inn.get(unbl[i]);
 			if (i % 10 > 3 && i % 10 <= 7)
-				outm << unbl[i];		
+
+
+				outm << unbl[i];
 		}
 		N -= 10;
 	}
-	int ost = 10 - N;
+	int ost = N-6;
 	for (int i = 0; i < N; i++) {
-		in >> unbl[i];
-		if (i > 3 && ost!=0) {
+		inn.get(unbl[i]);
+		if (i > 3 && ost > 0) {
 			outm << unbl[i];
 			ost--;
 		}
 	}
+	inn.close();
 	outm.close();
 }
