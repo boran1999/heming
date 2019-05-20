@@ -9,7 +9,7 @@ int get_amount_simbols(const char* filename) {
 	int N = 0;
 	char sym;
 	while (!in.eof()) {
-		in >> sym;
+		in.get(sym);
 		N++;
 	}
 	N -= 1;
